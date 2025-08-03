@@ -22,3 +22,5 @@ ingress:
 
 db:
   uri: ""
+  anon_role: "anon"
+  schema: "public"
