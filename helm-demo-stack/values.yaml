@@ -48,6 +48,7 @@ postgresql:
     username: postgres
     database: "mydatabase"
     password: "changeme"
+    postgresPassword: "changeme"
     # We now use the shared secret for the password
     existingSecret: "{{ .Release.Name }}-db-credentials"
     secretKeys:
