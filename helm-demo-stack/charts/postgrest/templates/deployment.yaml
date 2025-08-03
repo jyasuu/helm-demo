@@ -18,16 +18,9 @@ spec:
         - name: postgrest
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            - name: PGRST_DB_URI
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Release.Name }}-db-credentials
-                  key: uri
-          {{- with .Values.envFrom }}
           envFrom:
-{{ toYaml . | indent 12 }}
-          {{- end }}
+            - secretRef:
+                name: {{ .Release.Name }}-db-credentials
           ports:
             - name: http
               containerPort: 3000
