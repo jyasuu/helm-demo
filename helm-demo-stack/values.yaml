@@ -1,0 +1,90 @@
+# Default values for helm-demo-stack.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+my-app:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: nginx
+    pullPolicy: IfNotPresent
+    tag: ""
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: my-app.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+whoami:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: traefik/whoami
+    pullPolicy: IfNotPresent
+    tag: "v1.10"
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: whoami.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+postgresql:
+  enabled: true
+  auth:
+    username: postgres
+    password: "password"
+    database: "mydatabase"
+
+postgrest:
+  enabled: true
+  replicaCount: 1
+  image:
+    repository: postgrest/postgrest
+    pullPolicy: IfNotPresent
+    tag: "v10.0.0"
+  service:
+    type: ClusterIP
+    port: 3000
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: postgrest.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  db:
+    uri: "postgres://postgres:password@helm-demo-stack-postgresql:5432/mydatabase"
+
+pgadmin4:
+  enabled: true
+  env:
+    email: "admin@example.com"
+    password: "password"
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: pgadmin.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific

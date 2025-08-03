@@ -1,0 +1,52 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  # This is the name of the ArgoCD application
+  name: helm-demo-stack
+  # Applications should be in the argocd namespace
+  namespace: argocd
+spec:
+  # The project the application belongs to. The default project is fine.
+  project: default
+
+  # Source of the application's manifests
+  source:
+    # The URL of the Git repository
+    # IMPORTANT: You MUST replace this with your repository URL
+    repoURL: https://github.com/jyasuu/helm-demo.git
+    
+    # The path to the chart within the repository
+    path: helm-demo-stack
+    
+    # The target branch, tag, or commit
+    targetRevision: main
+    
+    # This specifies that the source is a Helm chart
+    helm:
+      # This allows you to override values in the chart's values.yaml
+      # For example, to change the replica count for my-app:
+      # valueFiles:
+      #   - values.yaml
+      values: |
+        my-app:
+          replicaCount: 1
+
+  # Destination where the manifests should be deployed
+  destination:
+    # The target cluster URL. "https://kubernetes.default.svc" is a magic
+    # value that means the cluster where ArgoCD is running.
+    server: https://kubernetes.default.svc
+    
+    # The target namespace for the application
+    namespace: default
+
+  # Sync policy
+  syncPolicy:
+    automated:
+      # Specifies if resources should be pruned from the cluster if they are no longer in Git
+      prune: true
+      # Specifies if ArgoCD should automatically self-heal if the cluster state drifts from Git
+      selfHeal: true
+    # Ensures that resources are synced in the order of their kind
+    syncOptions:
+      - CreateNamespace=true

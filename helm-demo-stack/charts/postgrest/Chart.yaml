@@ -1,0 +1,5 @@
+apiVersion: v2
+name: postgrest
+description: A Helm chart for the PostgREST application
+version: 0.1.0
+appVersion: "10.0.0"

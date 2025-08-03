@@ -1,0 +1,21 @@
+# Default values for whoami.
+replicaCount: 1
+
+image:
+  repository: traefik/whoami
+  pullPolicy: IfNotPresent
+  tag: "v1.10"
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: whoami.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific

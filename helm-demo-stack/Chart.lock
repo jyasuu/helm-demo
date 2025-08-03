@@ -1,0 +1,18 @@
+dependencies:
+- name: my-app
+  repository: file://./charts/my-app
+  version: 0.1.0
+- name: whoami
+  repository: file://./charts/whoami
+  version: 0.1.0
+- name: postgrest
+  repository: file://./charts/postgrest
+  version: 0.1.0
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 12.1.6
+- name: pgadmin4
+  repository: https://helm.runix.net/
+  version: 1.15.0
+digest: sha256:26d9d03971133bedf4f170169e6ed5b3c6ad2a19c47c8e42e7796bfc6f67b2ea
+generated: "2025-08-03T03:11:10.824155526Z"

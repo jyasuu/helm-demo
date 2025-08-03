@@ -1,0 +1,28 @@
+apiVersion: v2
+name: helm-demo-stack
+description: A Helm chart for deploying a full stack of applications
+version: 0.1.0
+appVersion: "1.0"
+icon: https://raw.githubusercontent.com/jyasuu/helm-demo/main/icon.png
+
+dependencies:
+  - name: my-app
+    version: "0.1.0"
+    repository: "file://./charts/my-app"
+    condition: my-app.enabled
+  - name: whoami
+    version: "0.1.0"
+    repository: "file://./charts/whoami"
+    condition: whoami.enabled
+  - name: postgrest
+    version: "0.1.0"
+    repository: "file://./charts/postgrest"
+    condition: postgrest.enabled
+  - name: postgresql
+    version: "12.1.6"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
+  - name: pgadmin4
+    version: "1.15.0"
+    repository: "https://helm.runix.net/"
+    condition: pgadmin.enabled
