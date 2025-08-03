@@ -14,7 +14,7 @@ my-app:
     port: 80
   ingress:
     enabled: true
-    className: ""
+    className: "nginx"
     annotations: {}
     hosts:
       - host: my-app.local
@@ -34,7 +34,7 @@ whoami:
     port: 80
   ingress:
     enabled: true
-    className: ""
+    className: "nginx"
     annotations: {}
     hosts:
       - host: whoami.local
@@ -61,7 +61,7 @@ postgrest:
     port: 3000
   ingress:
     enabled: true
-    className: ""
+    className: "nginx"
     annotations: {}
     hosts:
       - host: postgrest.local
@@ -81,7 +81,7 @@ pgadmin4:
     port: 80
   ingress:
     enabled: true
-    className: ""
+    className: "nginx"
     annotations: {}
     hosts:
       - host: pgadmin.local
