@@ -46,8 +46,11 @@ postgresql:
   enabled: true
   auth:
     username: postgres
-    password: "password"
     database: "mydatabase"
+    # We now use the shared secret for the password
+    existingSecret: "{{ .Release.Name }}-db-credentials"
+    secretKeys:
+      adminPasswordKey: "password"
 
 postgrest:
   enabled: true
@@ -68,8 +71,15 @@ postgrest:
         paths:
           - path: /
             pathType: ImplementationSpecific
-  db:
-    uri: "postgres://postgres:password@helm-demo-stack-postgresql:5432/mydatabase"
+  # This section is no longer needed, as the URI is in the shared secret
+  # db:
+  #   uri: "postgres://postgres:password@helm-demo-stack-postgresql:5432/mydatabase"
+
+  # We tell the postgrest deployment to get its DB_URI from the shared secret
+  envFrom:
+    - secretRef:
+        name: "{{ .Release.Name }}-db-credentials"
+
 
 pgadmin4:
   enabled: true

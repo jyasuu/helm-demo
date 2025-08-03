@@ -22,8 +22,12 @@ spec:
             - name: PGRST_DB_URI
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-postgrest-secret
-                  key: db-uri
+                  name: {{ .Release.Name }}-db-credentials
+                  key: uri
+          {{- with .Values.envFrom }}
+          envFrom:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 3000
