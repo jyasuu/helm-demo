@@ -73,6 +73,18 @@ This project is designed to be deployed and managed using ArgoCD following GitOp
     # Check status from the CLI
     argocd app get helm-demo-stack
     ```
+5. Issues
+   ```sh
+   ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
+   echo "ArgoCD password is: $ARGOCD_PASSWORD"
+   argocd login --core --username admin --password "$ARGOCD_PASSWORD" --port-forward-namespace argocd
+   kubectl config set-context --current --namespace=argocd
+   argocd app get helm-demo-stack
+   helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo add runix https://helm.runix.net/ && helm dependency build ./helm-demo-stack
+   argocd app sync helm-demo-stack
+   kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 &
+   curl --resolve whoami.local:8080:127.0.0.1 http://whoami.local:8080
+   ```
 
 
 ## 📚 Resources
@@ -80,4 +92,5 @@ This project is designed to be deployed and managed using ArgoCD following GitOp
 | Resource | Description |
 |----------|-------------|
 | [🎮 Kubernetes Playground](https://killercoda.com/playgrounds/scenario/kubernetes) | Interactive learning environment |
+
 
