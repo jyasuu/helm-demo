@@ -84,6 +84,7 @@ This project is designed to be deployed and managed using ArgoCD following GitOp
    argocd app sync helm-demo-stack
    kubectl port-forward -n ingress-nginx svc/ingress-nginx-controller 8080:80 &
    curl --resolve whoami.local:8080:127.0.0.1 http://whoami.local:8080
+   curl --resolve postgrest.local:8080:127.0.0.1 http://postgrest.local:8080
    ```
 
 
