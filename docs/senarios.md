@@ -1,4 +1,62 @@
 
+```yaml
+
+gateway:
+  enabled: true
+  name: http-gateway
+  tls:
+    name: example
+    cert: |
+      -----BEGIN CERTIFICATE-----
+      -----END CERTIFICATE-----
+
+    key: |
+      -----BEGIN RSA PRIVATE KEY-----
+      -----END RSA PRIVATE KEY-----
+
+```
+
+```yaml
+{{- if .Values.gateway.enabled }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.gateway.name }}
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+  - name: https
+    port: 443
+    protocol: HTTPS
+    hostname: "*.pouchen.com"
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: {{ .Values.gateway.name }}-{{ .Values.gateway.tls.name }}-tls
+    allowedRoutes:
+      namespaces:
+        from: Same
+{{- end }}
+{{- if .Values.gateway.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.gateway.name }}-{{ .Values.gateway.tls.name }}-tls
+data:
+  tls.crt: {{ .Values.gateway.tls.cert | b64enc }}
+  tls.key: {{ .Values.gateway.tls.key | b64enc }}
+type: kubernetes.io/tls
+{{- end }}
+```
+
 
 
 ```mermaid
